@@ -1,7 +1,7 @@
 import time, network, os
 
 # === CONFIG ===
-SSID = "c2w"
+SSID = "MAX-AP"
 THRESHOLD = -32.78
 CSV_PATH = "/sd/ML/wifilog.csv"
 
