@@ -1,4 +1,100 @@
+
+# ESP32 Smart Presence Detection using WiFi RSSI and Machine Learning
+
+This project detects whether a person is present in a room using WiFi signal strength (RSSI) and machine learning. It runs fully on ESP32 with MicroPython, using an OLED display, buzzer, and SD card for real-time alerts and data logging.
+
+---
+
+## Features
+
+- Passive human presence detection using WiFi RSSI
+- Machine learning model distinguishes between empty and occupied room
+- Real-time classification and alerts via buzzer and OLED
+- Data logging to SD card in CSV format
+- MicroPython-based and runs directly on ESP32
+- Privacy-respecting and camera-free system
+
+---
+
+## Hardware Used
+
+| Component        | Description                     |
+|------------------|---------------------------------|
+| ESP32 Dev Board  | With built-in WiFi              |
+| OLED Display     | SSD1306 (128x64)                |
+| Buzzer           | PWM-controlled for alerts       |
+| Buttons          | For UI controls (select/back)   |
+| SD Card Module   | For logging data (`/sd/ML/*.csv`) |
+
+---
+
+## Data Logging Structure
+
+| File Name         | Scenario           |
+|------------------|--------------------|
+| `blankroom.csv`   | No person present  |
+| `personinroom.csv`| Person in the room |
+
+Each file contains timestamped RSSI values from nearby WiFi access points.
+
+---
+
+## Machine Learning Workflow
+
+1. Collect RSSI data under both scenarios
+2. Train a machine learning model in Jupyter Notebook
+3. Export a threshold-based or lightweight rule
+4. Run real-time RSSI classification on ESP32
+5. Trigger alert if human presence is detected
+
+---
+
+## How It Works
+
+- ESP32 continuously scans available WiFi networks
+- It extracts RSSI values and computes average signal strength
+- These features are passed to a trained decision logic
+- Based on comparison, it determines room status and raises alerts
+
+---
+
+## Applications
+
+- Intrusion detection
+- Room occupancy monitoring
+- Smart home automation
+- Office or lab security system
+- Low-cost IoT surveillance
+
+---
+
+## Project Structure
+
+```
+
+/main.py                  # UI and system control
+/scripts/rssi\_detect.py   # Real-time ML-based detection
+/sd/ML/blankroom.csv      # RSSI data when room is empty
+/sd/ML/personinroom.csv   # RSSI data when person is present
+
+```
+
+---
+
+## Setup Instructions
+
+1. Flash MicroPython on ESP32
+2. Connect OLED, buzzer, SD card module, and buttons
+3. Copy project files to ESP32
+4. Run data collection, train model in Jupyter Notebook
+5. Execute real-time detection script from UI
+
+---
+
+## blankroom.ipynb
 ```python
+
+
 # blankroom.ipynb
 
 # Step 1: Import libraries
@@ -242,6 +338,20 @@ plt.show()
 
 
 
-```python
+## License
 
-```
+MIT License — Open-source, free to use and modify.
+
+---
+
+## Author
+
+Developed by Mahendra Mali  
+Cybersecurity and IoT Researcher  
+Website: [https://mahendraplus.github.io](https://mahendraplus.github.io)  
+GitHub: [https://github.com/mahendraplus](https://github.com/mahendraplus)
+
+
+
+
+
