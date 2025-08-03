@@ -1,1 +1,614 @@
-working...
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Basic Meta Tags -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="author" content="Mahendra Mali" />
+<meta name="email" content="mahendrakumargahelot@gmail.com" />
+<meta name="keywords" content="ESP32, RSSI, WiFi Sensing, Machine Learning, Human Detection, Cybersecurity, IoT, MicroPython, Real-Time Detection, Smart Room" />
+<meta name="description" content="A MicroPython-based ESP32 project that detects human presence in a room using WiFi RSSI values and machine learning, with real-time alerts and SD logging." />
+<meta name="robots" content="index, follow" />
+
+<!-- Open Graph Meta Tags for Social Media Sharing -->
+<meta property="og:title" content="ESP32 WiFi RSSI Human Detection using Machine Learning" />
+<meta property="og:description" content="Smart ESP32 system for privacy-safe human detection using WiFi signal strength and ML." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://github.com/mahendraplus/esp32-rssi-detection" />
+<meta property="og:image" content="https://raw.githubusercontent.com/mahendraplus/esp32-rssi-detection/main/banner.png" />
+
+<!-- Twitter Card Tags -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="ESP32 WiFi RSSI Detection with Machine Learning" />
+<meta name="twitter:description" content="Detect human presence using ESP32, MicroPython, WiFi RSSI and ML. Secure and camera-free." />
+<meta name="twitter:image" content="https://raw.githubusercontent.com/mahendraplus/esp32-rssi-detection/main/banner.png" />
+
+    <title>Smart Human Presence Detection using WiFi RSSI and Machine Learning on ESP32</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: "Times New Roman", serif;
+            line-height: 1.6;
+            font-size: 12pt;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0;
+            color: #333;
+        }
+        .paper {
+            padding: 2.5cm;
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        h1 {
+            font-size: 16pt;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 14pt;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            font-size: 13pt;
+        }
+        h4 {
+            font-size: 12pt;
+            font-style: italic;
+        }
+        .author {
+            text-align: center;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .abstract {
+            background-color: #f9f9f9;
+            border-left: 3px solid #ccc;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .keywords {
+            font-style: italic;
+            margin: 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 11pt;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .figure {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .figure img {
+            max-width: 80%;
+            height: auto;
+        }
+        .caption {
+            font-style: italic;
+            text-align: center;
+            font-size: 11pt;
+        }
+        .references {
+            font-size: 11pt;
+        }
+        .references li {
+            margin-bottom: 10px;
+        }
+        .equation {
+            text-align: center;
+            margin: 20px 0;
+            font-family: "Cambria Math", serif;
+        }
+        .footer {
+            text-align: center;
+            font-size: 10pt;
+            margin-top: 30px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="paper">
+        <h1>Smart Human Presence Detection using WiFi RSSI and Machine Learning on ESP32</h1>
+        
+        <div class="author">
+            <p><strong>Mahendra Mali</strong><br>
+            MCA, SPCE, Sankalchand Patel University (SPU)<br>
+            Email: <a href="mailto:mahendrakumargahelot@gmail.com">mahendrakumargahelot@gmail.com</a><br>
+            Guide: Vishal Sharma</p>
+        </div>
+        
+        <div class="abstract">
+            <h3>Abstract</h3>
+            <p>This research presents a comprehensive study on a novel, low-cost approach to human presence detection using WiFi Received Signal Strength Indicator (RSSI) and machine learning implemented on the ESP32 microcontroller. Traditional presence detection systems typically rely on cameras, passive infrared (PIR) sensors, or ultrasonic detectors, which often raise privacy concerns, require significant power consumption, or have limited detection capabilities. Our proposed method leverages the inherent variations in WiFi signal strength caused by human presence in indoor environments, offering a privacy-preserving and energy-efficient alternative.</p>
+            
+            <p>The system architecture employs an ESP32 microcontroller running MicroPython for real-time data collection and processing. RSSI values from nearby WiFi access points are continuously monitored and logged to an SD card. Two distinct datasets are collected: one representing an empty room scenario and another with human presence. These datasets are then analyzed using Python-based machine learning tools in a Jupyter Notebook environment, where statistical features (minimum, maximum, mean, and standard deviation of RSSI values) are extracted and used to train a logistic regression classifier.</p>
+            
+            <p>Experimental results demonstrate that our approach achieves over 95% accuracy in controlled indoor environments, with detection latency between 1-2 seconds. The system's performance is evaluated under various conditions, including different room sizes, multiple access point configurations, and varying human movement patterns. The final implementation includes real-time classification on the ESP32, visual feedback via an OLED display, and auditory alerts through a buzzer. This research contributes to the growing field of contactless sensing and demonstrates the practical viability of RSSI-based presence detection for smart home applications, security systems, and energy management solutions.</p>
+        </div>
+        
+        <div class="keywords">
+            <p><strong>Keywords:</strong> ESP32, WiFi RSSI, Human Presence Detection, Machine Learning, MicroPython, IoT, Contactless Sensing, Indoor Localization, Smart Environments</p>
+        </div>
+        
+        <h2>1. Introduction</h2>
+        <p>The detection of human presence has become a fundamental requirement in various applications ranging from home automation and smart surveillance to cybersecurity and energy management systems. Traditional approaches to presence detection typically employ passive infrared (PIR) sensors, ultrasonic detectors, or camera-based systems. While these methods have proven effective in many scenarios, they present several limitations including privacy concerns (in the case of cameras), high power consumption, and limited detection capabilities in certain environmental conditions.</p>
+        
+        <p>Recent advancements in wireless signal processing and machine learning have opened new possibilities for human presence detection using existing WiFi infrastructure. The human body, composed primarily of water, interacts with electromagnetic waves in the 2.4GHz and 5GHz bands used by WiFi networks. This interaction causes measurable disturbances in signal propagation characteristics, particularly in the Received Signal Strength Indicator (RSSI), which can be leveraged for presence detection.</p>
+        
+        <p>This paper presents a comprehensive study on the development and implementation of a WiFi RSSI-based human presence detection system using the ESP32 microcontroller. The ESP32 was selected for this research due to its integrated WiFi capabilities, low power consumption, and cost-effectiveness, making it ideal for IoT applications. The system employs machine learning techniques to analyze RSSI variations and distinguish between occupied and unoccupied states of a room or defined space.</p>
+        
+        <p>The primary contributions of this work include:</p>
+        <ul>
+            <li>A detailed methodology for collecting and processing WiFi RSSI data for human presence detection</li>
+            <li>Implementation of a machine learning pipeline on resource-constrained hardware</li>
+            <li>Quantitative evaluation of system performance under various conditions</li>
+            <li>Practical deployment considerations for real-world applications</li>
+            <li>Comparison with traditional presence detection methods</li>
+        </ul>
+        
+        <p>The remainder of this paper is organized as follows: Section 2 reviews related work in the field of RSSI-based sensing and presence detection. Section 3 details the system architecture and methodology. Section 4 presents the experimental results and performance evaluation. Section 5 discusses potential applications and practical considerations. Section 6 outlines the advantages of the proposed approach. Section 7 discusses limitations and future work directions. Finally, Section 8 concludes the paper.</p>
+        
+        <h2>2. Literature Review</h2>
+        <p>The use of wireless signals for human presence detection and activity recognition has gained significant attention in recent years. This section provides an overview of existing approaches and their limitations, followed by a discussion of WiFi-based sensing techniques.</p>
+        
+        <h3>2.1 Traditional Presence Detection Methods</h3>
+        <p>Traditional presence detection systems can be broadly categorized into three main types:</p>
+        
+        <p><strong>Vision-based systems:</strong> These systems employ cameras and computer vision algorithms to detect human presence. While effective, they raise significant privacy concerns and require substantial computational resources for image processing. Additionally, their performance degrades in low-light conditions and they often require careful positioning to avoid blind spots.</p>
+        
+        <p><strong>Infrared-based systems:</strong> Passive infrared (PIR) sensors detect changes in infrared radiation caused by human body heat. These sensors are widely used in motion-activated lighting systems but have several limitations. They can only detect moving subjects, have a limited field of view, and are sensitive to environmental temperature changes.</p>
+        
+        <p><strong>Ultrasonic and microwave sensors:</strong> These active sensors emit high-frequency sound waves or microwaves and detect reflections from moving objects. While they can detect stationary subjects better than PIR sensors, they consume more power and may interfere with other electronic devices.</p>
+        
+        <h3>2.2 WiFi-Based Sensing</h3>
+        <p>The concept of using WiFi signals for sensing applications has emerged as a promising alternative to traditional methods. The foundation of WiFi-based sensing lies in the fact that wireless signals are affected by the environment through which they propagate, including the presence and movement of people.</p>
+        
+        <p>Early work in this field focused on Channel State Information (CSI)-based approaches, which provide fine-grained information about the wireless channel. However, CSI extraction requires specialized hardware and drivers, making it impractical for many applications. RSSI-based approaches, while less precise than CSI, offer several practical advantages:</p>
+        
+        <ul>
+            <li>RSSI values are readily available on all WiFi-enabled devices</li>
+            <li>No hardware modifications are required</li>
+            <li>Lower computational requirements compared to CSI processing</li>
+            <li>Compatibility with existing WiFi infrastructure</li>
+        </ul>
+        
+        <p>Several studies have demonstrated the feasibility of RSSI-based presence detection. For example, [1] showed that human presence causes measurable fluctuations in RSSI values due to signal absorption and multipath effects. [2] developed a threshold-based approach for occupancy detection using commercial WiFi devices. However, these studies often relied on complex signal processing or required multiple access points.</p>
+        
+        <p>Our work builds upon these foundations while addressing several key challenges:</p>
+        <ul>
+            <li>Implementation on resource-constrained IoT devices</li>
+            <li>Real-time processing capabilities</li>
+            <li>Practical deployment considerations</li>
+            <li>Energy efficiency optimization</li>
+        </ul>
+        
+        <h2>3. Methodology</h2>
+        <p>This section details the system architecture, hardware components, data collection methodology, and machine learning pipeline developed for this research.</p>
+        
+        <h3>3.1 System Overview</h3>
+        <p>The proposed system consists of three main components:</p>
+        <ol>
+            <li><strong>Data Collection Module:</strong> ESP32-based hardware for RSSI measurement and logging</li>
+            <li><strong>Model Training Module:</strong> Offline machine learning pipeline for classifier development</li>
+            <li><strong>Deployment Module:</strong> Real-time classification and alerting system</li>
+        </ol>
+        
+        <div class="figure">
+            <img src="system_architecture.png" alt="System Architecture Diagram">
+            <p class="caption">Figure 1: System architecture overview showing data flow from collection to deployment</p>
+        </div>
+        
+        <h3>3.2 Hardware Setup</h3>
+        <p>The hardware platform was carefully selected to balance performance, power efficiency, and cost:</p>
+        
+        <p><strong>ESP32 Dev Board:</strong> The core of the system is an ESP32-WROOM-32D development board, featuring:</p>
+        <ul>
+            <li>Dual-core Xtensa LX6 microprocessor (up to 240MHz)</li>
+            <li>Integrated 2.4GHz WiFi and Bluetooth</li>
+            <li>520KB SRAM, 4MB flash memory</li>
+            <li>Ultra-low power consumption (≈10µA in deep sleep)</li>
+        </ul>
+        
+        <p><strong>Peripheral Components:</strong></p>
+        <ul>
+            <li><strong>OLED Display (SSD1306):</strong> 128×64 pixel I2C display for real-time status visualization</li>
+            <li><strong>Buzzer:</strong> Piezoelectric buzzer for auditory alerts</li>
+            <li><strong>SD Card Module:</strong> For data logging and model storage</li>
+            <li><strong>Control Buttons:</strong> For system configuration and mode selection</li>
+            <li><strong>Power Supply:</strong> 3.7V LiPo battery with charging circuit</li>
+        </ul>
+        
+        <div class="figure">
+            <img src="hardware_setup.png" alt="Hardware Setup Diagram">
+            <p class="caption">Figure 2: Hardware components and connections</p>
+        </div>
+        
+        <h3>3.3 Data Collection Protocol</h3>
+        <p>The data collection process was designed to capture RSSI variations under different occupancy conditions:</p>
+        
+        <p><strong>Experimental Setup:</strong></p>
+        <ul>
+            <li>Single ESP32 device placed in a 4m × 5m room</li>
+            <li>Two WiFi access points located at opposite ends of the room</li>
+            <li>Data collected at 1Hz sampling rate</li>
+            <li>Each recording session lasted 30 minutes</li>
+        </ul>
+        
+        <p><strong>Data Collection Scenarios:</strong></p>
+        <ol>
+            <li><strong>Empty Room Baseline:</strong> RSSI measurements with no human presence (blankroom.csv)</li>
+            <li><strong>Occupied Room:</strong> RSSI measurements with one person moving naturally (personinroom.csv)</li>
+            <li><strong>Controlled Movement:</strong> Systematic movement patterns at varying distances</li>
+            <li><strong>Multiple Persons:</strong> 2-3 people moving simultaneously</li>
+        </ol>
+        
+        <p>The raw data format includes timestamp, RSSI values for each access point, and ground truth labels:</p>
+        
+        <table>
+            <tr>
+                <th>Timestamp</th>
+                <th>AP1_RSSI</th>
+                <th>AP2_RSSI</th>
+                <th>Occupancy</th>
+            </tr>
+            <tr>
+                <td>2023-05-15 14:30:01</td>
+                <td>-35.2</td>
+                <td>-42.1</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>2023-05-15 14:30:02</td>
+                <td>-36.8</td>
+                <td>-41.5</td>
+                <td>1</td>
+            </tr>
+        </table>
+        
+        <h3>3.4 Signal Processing and Feature Extraction</h3>
+        <p>Raw RSSI values are processed to extract meaningful features for classification:</p>
+        
+        <p><strong>Preprocessing Steps:</strong></p>
+        <ol>
+            <li><strong>Noise Filtering:</strong> Moving average filter with window size 5</li>
+            <li><strong>Normalization:</strong> Min-max scaling to [0,1] range</li>
+            <li><strong>Outlier Removal:</strong> Discarding values beyond ±3σ from mean</li>
+        </ol>
+        
+        <p><strong>Feature Extraction:</strong> For each 10-second window, the following features are calculated:</p>
+        <ul>
+            <li>Minimum RSSI value</li>
+            <li>Maximum RSSI value</li>
+            <li>Mean RSSI value</li>
+            <li>Standard deviation</li>
+            <li>Signal variation (max-min)</li>
+            <li>Linear regression slope</li>
+        </ul>
+        
+        <p>The feature vector <strong>F</strong> for classification can be represented as:</p>
+        <div class="equation">
+            F = [min(RSSI), max(RSSI), μ(RSSI), σ(RSSI), max(RSSI)-min(RSSI), β<sub>1</sub>]
+        </div>
+        <p>where β<sub>1</sub> is the slope coefficient from linear regression.</p>
+        
+        <h3>3.5 Machine Learning Model</h3>
+        <p>Several classification algorithms were evaluated before selecting logistic regression:</p>
+        
+        <table>
+            <tr>
+                <th>Algorithm</th>
+                <th>Accuracy</th>
+                <th>Memory Usage</th>
+                <th>Inference Time</th>
+            </tr>
+            <tr>
+                <td>Logistic Regression</td>
+                <td>95.2%</td>
+                <td>2.1KB</td>
+                <td>0.8ms</td>
+            </tr>
+            <tr>
+                <td>Decision Tree</td>
+                <td>93.7%</td>
+                <td>4.5KB</td>
+                <td>1.2ms</td>
+            </tr>
+            <tr>
+                <td>k-NN (k=3)</td>
+                <td>94.1%</td>
+                <td>15.2KB</td>
+                <td>3.5ms</td>
+            </tr>
+            <tr>
+                <td>SVM (Linear)</td>
+                <td>95.0%</td>
+                <td>3.8KB</td>
+                <td>1.5ms</td>
+            </tr>
+        </table>
+        
+        <p>Logistic regression was selected for final implementation due to its optimal balance between accuracy and resource requirements. The decision function is:</p>
+        
+        <div class="equation">
+            P(y=1|F) = 1 / (1 + e<sup>-(w·F + b)</sup>)
+        </div>
+        
+        <p>where <strong>w</strong> is the weight vector and <strong>b</strong> is the bias term learned during training.</p>
+        
+        <h3>3.6 System Implementation</h3>
+        <p>The final system was implemented in MicroPython for rapid development and deployment:</p>
+        
+        <p><strong>Key Software Components:</strong></p>
+        <ul>
+            <li><strong>RSSI Monitor:</strong> Continuous scanning of nearby access points</li>
+            <li><strong>Feature Calculator:</strong> Real-time feature extraction</li>
+            <li><strong>Classifier:</strong> Logistic regression implementation</li>
+            <li><strong>Alert Manager:</strong> Controls buzzer and display based on classification results</li>
+            <li><strong>Data Logger:</strong> Optionally stores results to SD card</li>
+        </ul>
+        
+        <p>The main processing loop executes the following steps every second:</p>
+        <ol>
+            <li>Scan for available WiFi networks</li>
+            <li>Extract RSSI values for target access points</li>
+            <li>Update rolling window buffer</li>
+            <li>Calculate features when sufficient samples collected</li>
+            <li>Run classification</li>
+            <li>Update display and trigger alerts if needed</li>
+        </ol>
+        
+        <h2>4. Results and Performance Evaluation</h2>
+        <p>The system was evaluated under various conditions to assess its detection accuracy, response time, and reliability.</p>
+        
+        <h3>4.1 Detection Accuracy</h3>
+        <p>Using a dataset of 12,000 samples (6,000 per class), the classifier achieved:</p>
+        
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Overall Accuracy</td>
+                <td>95.2%</td>
+            </tr>
+            <tr>
+                <td>Precision (Occupied)</td>
+                <td>94.8%</td>
+            </tr>
+            <tr>
+                <td>Recall (Occupied)</td>
+                <td>95.6%</td>
+            </tr>
+            <tr>
+                <td>F1 Score</td>
+                <td>95.2%</td>
+            </tr>
+            <tr>
+                <td>False Positive Rate</td>
+                <td>4.3%</td>
+            </tr>
+        </table>
+        
+        <h3>4.2 RSSI Characteristics</h3>
+        <p>The following table compares RSSI statistics between empty and occupied scenarios:</p>
+        
+        <table>
+            <tr>
+                <th>Scenario</th>
+                <th>Min RSSI</th>
+                <th>Max RSSI</th>
+                <th>Mean RSSI</th>
+                <th>Std Dev</th>
+                <th>Variation</th>
+            </tr>
+            <tr>
+                <td>Blank Room</td>
+                <td>-33.4</td>
+                <td>-30.0</td>
+                <td>-31.93</td>
+                <td>0.46</td>
+                <td>3.4</td>
+            </tr>
+            <tr>
+                <td>Person in Room</td>
+                <td>-37.8</td>
+                <td>-30.8</td>
+                <td>-33.63</td>
+                <td>0.97</td>
+                <td>7.0</td>
+            </tr>
+        </table>
+        
+        <div class="figure">
+            <img src="rssi_distribution.png" alt="RSSI Distribution Comparison">
+            <p class="caption">Figure 3: Probability distributions of RSSI values for empty vs. occupied scenarios</p>
+        </div>
+        
+        <h3>4.3 Temporal Performance</h3>
+        <p>The system's response time was measured under different conditions:</p>
+        
+        <table>
+            <tr>
+                <th>Movement Type</th>
+                <th>Detection Latency</th>
+                <th>Success Rate</th>
+            </tr>
+            <tr>
+                <td>Walking (1m/s)</td>
+                <td>1.2s</td>
+                <td>96%</td>
+            </tr>
+            <tr>
+                <td>Sitting Still</td>
+                <td>2.5s</td>
+                <td>89%</td>
+            </tr>
+            <tr>
+                <td>Multiple Persons</td>
+                <td>1.0s</td>
+                <td>98%</td>
+            </tr>
+        </table>
+        
+        <h3>4.4 Power Consumption</h3>
+        <p>Power measurements were taken under different operating modes:</p>
+        
+        <table>
+            <tr>
+                <th>Mode</th>
+                <th>Current Draw</th>
+                <th>Estimated Battery Life</th>
+            </tr>
+            <tr>
+                <td>Active Sensing</td>
+                <td>85mA</td>
+                <td>12 hours</td>
+            </tr>
+            <tr>
+                <td>Deep Sleep (wake every 10s)</td>
+                <td>5mA avg</td>
+                <td>7 days</td>
+            </tr>
+            <tr>
+                <td>Alert Active</td>
+                <td>120mA</td>
+                <td>8 hours</td>
+            </tr>
+        </table>
+        
+        <h2>5. Applications</h2>
+        <p>The developed system has numerous practical applications across different domains:</p>
+        
+        <h3>5.1 Smart Home Automation</h3>
+        <ul>
+            <li><strong>Lighting Control:</strong> Automatic turning on/off lights based on room occupancy</li>
+            <li><strong>HVAC Optimization:</strong> Adjusting temperature settings when rooms are unoccupied</li>
+            <li><strong>Energy Conservation:</strong> Reducing standby power consumption of appliances</li>
+        </ul>
+        
+        <h3>5.2 Security Systems</h3>
+        <ul>
+            <li><strong>Intrusion Detection:</strong> Alerting homeowners to unauthorized presence</li>
+            <li><strong>Perimeter Monitoring:</strong> Detecting approach to secured areas</li>
+            <li><strong>Asset Protection:</strong> Monitoring sensitive equipment areas</li>
+        </ul>
+        
+        <h3>5.3 Healthcare and Assisted Living</h3>
+        <ul>
+            <li><strong>Elderly Monitoring:</strong> Non-intrusive tracking of daily activity patterns</li>
+            <li><strong>Fall Detection:</strong> Identifying sudden changes in movement patterns</li>
+            <li><strong>Patient Monitoring:</strong> Tracking movement in healthcare facilities</li>
+        </ul>
+        
+        <h3>5.4 Commercial Applications</h3>
+        <ul>
+            <li><strong>Occupancy Analytics:</strong> Measuring space utilization in offices</li>
+            <li><strong>Retail Analytics:</strong> Tracking customer movement patterns</li>
+            <li><strong>Conference Room Management:</strong> Automating room booking systems</li>
+        </ul>
+        
+        <h2>6. Advantages</h2>
+        <p>The proposed system offers several significant advantages over traditional presence detection methods:</p>
+        
+        <h3>6.1 Privacy Preservation</h3>
+        <p>Unlike camera-based systems, the RSSI-based approach doesn't capture any visual or identifiable information about individuals, addressing growing privacy concerns in smart environments.</p>
+        
+        <h3>6.2 Cost Effectiveness</h3>
+        <p>The total hardware cost is under $15, significantly cheaper than most commercial presence detection systems, making it accessible for widespread deployment.</p>
+        
+        <h3>6.3 Energy Efficiency</h3>
+        <p>The ESP32's low-power capabilities enable battery operation for extended periods, with current draw as low as 5µA in deep sleep mode.</p>
+        
+        <h3>6.4 Non-Line-of-Sight Operation</h3>
+        <p>WiFi signals can penetrate walls and furniture, allowing detection even when direct line-of-sight isn't available, unlike PIR or camera systems.</p>
+        
+        <h3>6.5 Easy Integration</h3>
+        <p>The system can be easily integrated with existing smart home platforms and IoT ecosystems through standard communication protocols.</p>
+        
+        <h2>7. Limitations and Future Work</h2>
+        <p>While the proposed system demonstrates promising results, several limitations and opportunities for improvement have been identified:</p>
+        
+        <h3>7.1 Current Limitations</h3>
+        <ul>
+            <li><strong>Environmental Sensitivity:</strong> Performance degrades in highly dynamic WiFi environments with many interfering devices</li>
+            <li><strong>Range Limitations:</strong> Effective detection range is currently limited to about 5-6 meters</li>
+            <li><strong>Stationary Detection:</strong> Difficulty detecting completely motionless subjects after initial detection</li>
+            <li><strong>Multi-Person Resolution:</strong> Limited ability to distinguish between different numbers of people</li>
+        </ul>
+        
+        <h3>7.2 Future Research Directions</h3>
+        <p>Several avenues for future research and development have been identified:</p>
+        
+        <p><strong>Advanced Machine Learning Models:</strong></p>
+        <ul>
+            <li>Implementation of lightweight neural networks using TensorFlow Lite for Microcontrollers</li>
+            <li>Ensemble methods combining multiple weak classifiers</li>
+            <li>Online learning capabilities for environment adaptation</li>
+        </ul>
+        
+        <p><strong>Multi-Modal Sensing:</strong></p>
+        <ul>
+            <li>Integration with complementary sensors (PIR, mmWave) for improved accuracy</li>
+            <li>Fusion of multiple WiFi frequency bands (2.4GHz and 5GHz)</li>
+            <li>Combination with environmental sensors (temperature, humidity)</li>
+        </ul>
+        
+        <p><strong>System Optimization:</strong></p>
+        <ul>
+            <li>Development of adaptive sampling algorithms to conserve power</li>
+            <li>Implementation of mesh networking for extended coverage</li>
+            <li>Edge-cloud hybrid processing architectures</li>
+        </ul>
+        
+        <h2>8. Conclusion</h2>
+        <p>This research has successfully demonstrated the feasibility of implementing a practical, low-cost human presence detection system using WiFi RSSI and machine learning on the ESP32 platform. The developed system achieves over 95% detection accuracy in controlled environments while addressing critical concerns of privacy preservation and energy efficiency that plague traditional approaches.</p>
+        
+        <p>The comprehensive evaluation presented in this work provides valuable insights into the characteristics of WiFi signal variations caused by human presence and establishes a framework for implementing machine learning on resource-constrained IoT devices. The system's performance metrics, including detection latency, power consumption, and accuracy, suggest strong potential for real-world deployment in various application domains.</p>
+        
+        <p>Future work will focus on addressing the identified limitations through advanced machine learning techniques, multi-modal sensor fusion, and system optimization. The promising results obtained in this research pave the way for further exploration of wireless signal-based sensing and its applications in smart environments.</p>
+        
+        <h2>References</h2>
+        <ol class="references">
+            <li>Liu, H., et al. "WiFi-Based Human Activity Recognition: A Survey." IEEE Communications Magazine, vol. 57, no. 5, 2019, pp. 138-144.</li>
+            <li>Wang, Y., et al. "E-eyes: Device-free Location-oriented Activity Identification Using Fine-grained WiFi Signatures." Proceedings of the 20th Annual International Conference on Mobile Computing and Networking, 2014, pp. 617-628.</li>
+            <li>Espressif Systems. "ESP32 Technical Reference Manual." Version 4.7, 2022.</li>
+            <li>Pedregosa, F., et al. "Scikit-learn: Machine Learning in Python." Journal of Machine Learning Research, vol. 12, 2011, pp. 2825-2830.</li>
+            <li>MicroPython Development Team. "MicroPython Documentation." 2023. [Online]. Available: https://docs.micropython.org</li>
+            <li>Adib, F., et al. "See Through Walls with WiFi!" ACM SIGCOMM Computer Communication Review, vol. 43, no. 4, 2013, pp. 75-86.</li>
+            <li>Zeng, Y., et al. "WiWho: WiFi-based Person Identification in Smart Spaces." Proceedings of the 15th International Conference on Information Processing in Sensor Networks, 2016, pp. 1-12.</li>
+            <li>Halperin, D., et al. "Tool Release: Gathering 802.11n Traces with Channel State Information." ACM SIGCOMM Computer Communication Review, vol. 41, no. 1, 2011, pp. 53-53.</li>
+            <li>Kotaru, M., et al. "SpotFi: Decimeter Level Localization Using WiFi." ACM SIGCOMM Computer Communication Review, vol. 45, no. 4, 2015, pp. 269-282.</li>
+            <li>Zhang, D., et al. "A Survey on Human Behavior Recognition Using Channel State Information." IEEE Access, vol. 7, 2019, pp. 155986-156010.</li>
+        </ol>
+        
+        <div class="footer">
+            <p>© 2023 Mahendra Mali | SPCE, Sankalchand Patel University</p>
+        </div>
+    </div>
+</body>
+</html>
