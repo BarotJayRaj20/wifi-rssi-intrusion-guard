@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Basic Meta Tags -->
+      <!-- Basic Meta Tags -->
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="author" content="Mahendra Mali" />
@@ -25,590 +25,865 @@
 <meta name="twitter:description" content="Detect human presence using ESP32, MicroPython, WiFi RSSI and ML. Secure and camera-free." />
 <meta name="twitter:image" content="https://raw.githubusercontent.com/mahendraplus/esp32-rssi-detection/main/banner.png" />
 
-    <title>Smart Human Presence Detection using WiFi RSSI and Machine Learning on ESP32</title>
+ 
+    <meta name="description" content="ESP32-based smart presence detection system using WiFi RSSI and machine learning for camera-free room occupancy monitoring">
+    <meta name="keywords" content="ESP32, WiFi RSSI, machine learning, presence detection, IoT, smart home, MicroPython">
+    <meta name="author" content="Mahendra Mali">
+    <title>ESP32 Smart Presence Detection using WiFi RSSI and ML | IoT Project</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        @page {
-            size: A4;
-            margin: 2cm;
+        :root {
+            --primary: #6C63FF;
+            --secondary: #4D44DB;
+            --accent: #FF6584;
+            --dark: #2A2D3E;
+            --darker: #1E202E;
+            --light: #F8F9FF;
+            --success: #2FD180;
+            --warning: #FFB74D;
+            --text: #E0E0E0;
+            --text-dark: #4A4A4A;
+            --neon: #00F0FF;
+            --bg: linear-gradient(135deg, #1E202E 0%, #2A2D3E 100%);
         }
-        body {
-            font-family: "Times New Roman", serif;
-            line-height: 1.6;
-            font-size: 12pt;
-            max-width: 100%;
-            margin: 0 auto;
+        
+        /* Base Reset */
+        * {
+            margin: 0;
             padding: 0;
-            color: #333;
+            box-sizing: border-box;
         }
-        .paper {
-            padding: 2.5cm;
+        
+        html {
+            scroll-behavior: smooth;
         }
-        h1, h2, h3, h4 {
-            color: #2c3e50;
-            margin-top: 1.5em;
-            margin-bottom: 0.5em;
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
         }
+        
+        /* Mobile First Layout */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            position: relative;
+            padding: 4rem 0 5rem;
+            text-align: center;
+            overflow: hidden;
+        }
+        
         h1 {
-            font-size: 16pt;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
+            font-size: 2.2rem;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(to right, var(--primary), var(--accent), var(--neon));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            animation: gradient-shift 8s ease infinite;
+            background-size: 300% 300%;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
         }
+        
+        .tagline {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            padding: 0 1rem;
+        }
+        
+        .hero-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        
+        .hero-image {
+            width: 100%;
+            display: block;
+        }
+        
+        .hero-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255,101,132,0.3);
+            transition: transform 0.3s ease;
+            animation: badge-pulse 10s infinite;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            z-index: 3;
+        }
+        
+        /* Sections */
+        section {
+            padding: 3rem 0;
+            position: relative;
+        }
+        
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(42,45,62,0.85);
+            z-index: -1;
+            backdrop-filter: blur(5px);
+        }
+        
         h2 {
-            font-size: 14pt;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
         }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
         h3 {
-            font-size: 13pt;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--light);
         }
-        h4 {
-            font-size: 12pt;
-            font-style: italic;
+        
+        p {
+            margin-bottom: 1.2rem;
+            font-size: 1rem;
         }
-        .author {
-            text-align: center;
-            margin: 20px 0;
-            font-style: italic;
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
-        .abstract {
-            background-color: #f9f9f9;
-            border-left: 3px solid #ccc;
-            padding: 15px;
-            margin: 20px 0;
+        
+        .feature-card {
+            background: rgba(42,45,62,0.7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        .keywords {
-            font-style: italic;
-            margin: 15px 0;
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
         }
-        table {
+        
+        /* Hardware Table */
+        .hardware-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 11pt;
+            margin: 2rem 0;
+            font-size: 0.9rem;
         }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 8px;
+        
+        .hardware-table th, .hardware-table td {
+            padding: 0.8rem;
             text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        th {
-            background-color: #f2f2f2;
+        
+        .hardware-table th {
+            background: rgba(108,99,255,0.2);
+            color: var(--light);
         }
-        .figure {
+        
+        /* Code Blocks */
+        .code-block {
+            background: rgba(30,32,46,0.9);
+            color: #abb2bf;
+            padding: 1.2rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            border-left: 3px solid var(--primary);
+        }
+        
+        /* Image Gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            display: block;
+        }
+        
+        .gallery-item figcaption {
+            padding: 1rem;
+            background: rgba(30,32,46,0.8);
+            font-size: 0.9rem;
+        }
+        
+        /* Auto-sliding Banner */
+        .banner-container {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .banner-slide {
+            display: flex;
+            transition: transform 0.5s ease;
+            width: 100%;
+        }
+        
+        .banner-slide img {
+            min-width: 100%;
+            object-fit: cover;
+            height: 200px;
+        }
+        
+        /* Team Section */
+        .team-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 1rem;
+            padding: 1rem 0;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* Internet Explorer and Edge */
+        }
+        
+        .team-slider::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .team-member {
+            flex: 0 0 auto;
+            width: 200px;
             text-align: center;
-            margin: 20px 0;
+            scroll-snap-align: start;
+            background: rgba(42,45,62,0.8);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: transform 0.3s ease;
         }
-        .figure img {
-            max-width: 80%;
-            height: auto;
+        
+        .team-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 1px solid var(--primary);
         }
-        .caption {
-            font-style: italic;
+        
+        /* CTA Section */
+        .cta {
             text-align: center;
-            font-size: 11pt;
+            padding: 3rem 1rem;
+            margin: 3rem 0;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            position: relative;
+            overflow: hidden;
         }
-        .references {
-            font-size: 11pt;
+        
+        .cta h2 {
+            color: white;
         }
-        .references li {
-            margin-bottom: 10px;
+        
+        .cta h2::after {
+            background: white;
+            left: 50%;
+            transform: translateX(-50%);
         }
-        .equation {
+        
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 3rem 0 2rem;
+            position: relative;
+        }
+        
+        .footer-wave {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' opacity='.25' fill='%234D44DB'%3E%3C/path%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' fill='%236C63FF'%3E%3C/path%3E%3Cpath d='M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z' fill='%23FF6584'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        
+        .footer-content {
             text-align: center;
-            margin: 20px 0;
-            font-family: "Cambria Math", serif;
         }
-        .footer {
-            text-align: center;
-            font-size: 10pt;
-            margin-top: 30px;
-            border-top: 1px solid #ddd;
-            padding-top: 10px;
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* Scroll To Top/Bottom Buttons */
+        .scroll-buttons {
+            position: fixed;
+            right: 15px;
+            bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .scroll-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .scroll-btn:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        /* Animations */
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes badge-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(0); }
+            33% { transform: translateX(-100%); }
+            58% { transform: translateX(-100%); }
+            66% { transform: translateX(-200%); }
+            91% { transform: translateX(-200%); }
+            100% { transform: translateX(-300%); }
+        }
+        
+        /* Tablet Styles */
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            section {
+                padding: 4rem 0;
+            }
+            
+            h2 {
+                font-size: 2.2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .image-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .banner-slide img {
+                height: 300px;
+            }
+            
+            .hero-badge {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+                top: -15px;
+                right: -15px;
+            }
+        }
+        
+        /* Desktop Styles */
+        @media (min-width: 992px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.3rem;
+            }
+            
+            section {
+                padding: 5rem 0;
+            }
+            
+            h2 {
+                font-size: 2.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+            
+            .image-gallery {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .container {
+                padding: 0 30px;
+            }
+            
+            .hero-badge {
+                font-size: 1rem;
+                padding: 12px 24px;
+                top: -20px;
+                right: -20px;
+            }
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s ease, transform 0.3s ease;
         }
     </style>
 </head>
 <body>
-    <div class="paper">
-        <h1>Smart Human Presence Detection using WiFi RSSI and Machine Learning on ESP32</h1>
-        
-        <div class="author">
-            <p><strong>Mahendra Mali</strong><br>
-            MCA, SPCE, Sankalchand Patel University (SPU)<br>
-            Email: <a href="mailto:mahendrakumargahelot@gmail.com">mahendrakumargahelot@gmail.com</a><br>
-            Guide: Vishal Sharma</p>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1>ESP32 Smart Presence Detection</h1>
+            <p class="tagline">Using WiFi RSSI and Machine Learning for camera-free room occupancy monitoring</p>
+            <div class="hero-image-container">
+                <img src="https://mahendraplus.github.io/wifi-rssi-intrusion-guard/img/1.jpg" alt="ESP32 Presence Detection System" class="hero-image">
+                <div class="hero-badge">ESP32 Project</div>
         </div>
-        
-        <div class="abstract">
-            <h3>Abstract</h3>
-            <p>This research presents a comprehensive study on a novel, low-cost approach to human presence detection using WiFi Received Signal Strength Indicator (RSSI) and machine learning implemented on the ESP32 microcontroller. Traditional presence detection systems typically rely on cameras, passive infrared (PIR) sensors, or ultrasonic detectors, which often raise privacy concerns, require significant power consumption, or have limited detection capabilities. Our proposed method leverages the inherent variations in WiFi signal strength caused by human presence in indoor environments, offering a privacy-preserving and energy-efficient alternative.</p>
-            
-            <p>The system architecture employs an ESP32 microcontroller running MicroPython for real-time data collection and processing. RSSI values from nearby WiFi access points are continuously monitored and logged to an SD card. Two distinct datasets are collected: one representing an empty room scenario and another with human presence. These datasets are then analyzed using Python-based machine learning tools in a Jupyter Notebook environment, where statistical features (minimum, maximum, mean, and standard deviation of RSSI values) are extracted and used to train a logistic regression classifier.</p>
-            
-            <p>Experimental results demonstrate that our approach achieves over 95% accuracy in controlled indoor environments, with detection latency between 1-2 seconds. The system's performance is evaluated under various conditions, including different room sizes, multiple access point configurations, and varying human movement patterns. The final implementation includes real-time classification on the ESP32, visual feedback via an OLED display, and auditory alerts through a buzzer. This research contributes to the growing field of contactless sensing and demonstrates the practical viability of RSSI-based presence detection for smart home applications, security systems, and energy management solutions.</p>
-        </div>
-        
-        <div class="keywords">
-            <p><strong>Keywords:</strong> ESP32, WiFi RSSI, Human Presence Detection, Machine Learning, MicroPython, IoT, Contactless Sensing, Indoor Localization, Smart Environments</p>
-        </div>
-        
-        <h2>1. Introduction</h2>
-        <p>The detection of human presence has become a fundamental requirement in various applications ranging from home automation and smart surveillance to cybersecurity and energy management systems. Traditional approaches to presence detection typically employ passive infrared (PIR) sensors, ultrasonic detectors, or camera-based systems. While these methods have proven effective in many scenarios, they present several limitations including privacy concerns (in the case of cameras), high power consumption, and limited detection capabilities in certain environmental conditions.</p>
-        
-        <p>Recent advancements in wireless signal processing and machine learning have opened new possibilities for human presence detection using existing WiFi infrastructure. The human body, composed primarily of water, interacts with electromagnetic waves in the 2.4GHz and 5GHz bands used by WiFi networks. This interaction causes measurable disturbances in signal propagation characteristics, particularly in the Received Signal Strength Indicator (RSSI), which can be leveraged for presence detection.</p>
-        
-        <p>This paper presents a comprehensive study on the development and implementation of a WiFi RSSI-based human presence detection system using the ESP32 microcontroller. The ESP32 was selected for this research due to its integrated WiFi capabilities, low power consumption, and cost-effectiveness, making it ideal for IoT applications. The system employs machine learning techniques to analyze RSSI variations and distinguish between occupied and unoccupied states of a room or defined space.</p>
-        
-        <p>The primary contributions of this work include:</p>
-        <ul>
-            <li>A detailed methodology for collecting and processing WiFi RSSI data for human presence detection</li>
-            <li>Implementation of a machine learning pipeline on resource-constrained hardware</li>
-            <li>Quantitative evaluation of system performance under various conditions</li>
-            <li>Practical deployment considerations for real-world applications</li>
-            <li>Comparison with traditional presence detection methods</li>
-        </ul>
-        
-        <p>The remainder of this paper is organized as follows: Section 2 reviews related work in the field of RSSI-based sensing and presence detection. Section 3 details the system architecture and methodology. Section 4 presents the experimental results and performance evaluation. Section 5 discusses potential applications and practical considerations. Section 6 outlines the advantages of the proposed approach. Section 7 discusses limitations and future work directions. Finally, Section 8 concludes the paper.</p>
-        
-        <h2>2. Literature Review</h2>
-        <p>The use of wireless signals for human presence detection and activity recognition has gained significant attention in recent years. This section provides an overview of existing approaches and their limitations, followed by a discussion of WiFi-based sensing techniques.</p>
-        
-        <h3>2.1 Traditional Presence Detection Methods</h3>
-        <p>Traditional presence detection systems can be broadly categorized into three main types:</p>
-        
-        <p><strong>Vision-based systems:</strong> These systems employ cameras and computer vision algorithms to detect human presence. While effective, they raise significant privacy concerns and require substantial computational resources for image processing. Additionally, their performance degrades in low-light conditions and they often require careful positioning to avoid blind spots.</p>
-        
-        <p><strong>Infrared-based systems:</strong> Passive infrared (PIR) sensors detect changes in infrared radiation caused by human body heat. These sensors are widely used in motion-activated lighting systems but have several limitations. They can only detect moving subjects, have a limited field of view, and are sensitive to environmental temperature changes.</p>
-        
-        <p><strong>Ultrasonic and microwave sensors:</strong> These active sensors emit high-frequency sound waves or microwaves and detect reflections from moving objects. While they can detect stationary subjects better than PIR sensors, they consume more power and may interfere with other electronic devices.</p>
-        
-        <h3>2.2 WiFi-Based Sensing</h3>
-        <p>The concept of using WiFi signals for sensing applications has emerged as a promising alternative to traditional methods. The foundation of WiFi-based sensing lies in the fact that wireless signals are affected by the environment through which they propagate, including the presence and movement of people.</p>
-        
-        <p>Early work in this field focused on Channel State Information (CSI)-based approaches, which provide fine-grained information about the wireless channel. However, CSI extraction requires specialized hardware and drivers, making it impractical for many applications. RSSI-based approaches, while less precise than CSI, offer several practical advantages:</p>
-        
-        <ul>
-            <li>RSSI values are readily available on all WiFi-enabled devices</li>
-            <li>No hardware modifications are required</li>
-            <li>Lower computational requirements compared to CSI processing</li>
-            <li>Compatibility with existing WiFi infrastructure</li>
-        </ul>
-        
-        <p>Several studies have demonstrated the feasibility of RSSI-based presence detection. For example, [1] showed that human presence causes measurable fluctuations in RSSI values due to signal absorption and multipath effects. [2] developed a threshold-based approach for occupancy detection using commercial WiFi devices. However, these studies often relied on complex signal processing or required multiple access points.</p>
-        
-        <p>Our work builds upon these foundations while addressing several key challenges:</p>
-        <ul>
-            <li>Implementation on resource-constrained IoT devices</li>
-            <li>Real-time processing capabilities</li>
-            <li>Practical deployment considerations</li>
-            <li>Energy efficiency optimization</li>
-        </ul>
-        
-        <h2>3. Methodology</h2>
-        <p>This section details the system architecture, hardware components, data collection methodology, and machine learning pipeline developed for this research.</p>
-        
-        <h3>3.1 System Overview</h3>
-        <p>The proposed system consists of three main components:</p>
-        <ol>
-            <li><strong>Data Collection Module:</strong> ESP32-based hardware for RSSI measurement and logging</li>
-            <li><strong>Model Training Module:</strong> Offline machine learning pipeline for classifier development</li>
-            <li><strong>Deployment Module:</strong> Real-time classification and alerting system</li>
-        </ol>
-        
-        <div class="figure">
-            <img src="system_architecture.png" alt="System Architecture Diagram">
-            <p class="caption">Figure 1: System architecture overview showing data flow from collection to deployment</p>
-        </div>
-        
-        <h3>3.2 Hardware Setup</h3>
-        <p>The hardware platform was carefully selected to balance performance, power efficiency, and cost:</p>
-        
-        <p><strong>ESP32 Dev Board:</strong> The core of the system is an ESP32-WROOM-32D development board, featuring:</p>
-        <ul>
-            <li>Dual-core Xtensa LX6 microprocessor (up to 240MHz)</li>
-            <li>Integrated 2.4GHz WiFi and Bluetooth</li>
-            <li>520KB SRAM, 4MB flash memory</li>
-            <li>Ultra-low power consumption (≈10µA in deep sleep)</li>
-        </ul>
-        
-        <p><strong>Peripheral Components:</strong></p>
-        <ul>
-            <li><strong>OLED Display (SSD1306):</strong> 128×64 pixel I2C display for real-time status visualization</li>
-            <li><strong>Buzzer:</strong> Piezoelectric buzzer for auditory alerts</li>
-            <li><strong>SD Card Module:</strong> For data logging and model storage</li>
-            <li><strong>Control Buttons:</strong> For system configuration and mode selection</li>
-            <li><strong>Power Supply:</strong> 3.7V LiPo battery with charging circuit</li>
-        </ul>
-        
-        <div class="figure">
-            <img src="hardware_setup.png" alt="Hardware Setup Diagram">
-            <p class="caption">Figure 2: Hardware components and connections</p>
-        </div>
-        
-        <h3>3.3 Data Collection Protocol</h3>
-        <p>The data collection process was designed to capture RSSI variations under different occupancy conditions:</p>
-        
-        <p><strong>Experimental Setup:</strong></p>
-        <ul>
-            <li>Single ESP32 device placed in a 4m × 5m room</li>
-            <li>Two WiFi access points located at opposite ends of the room</li>
-            <li>Data collected at 1Hz sampling rate</li>
-            <li>Each recording session lasted 30 minutes</li>
-        </ul>
-        
-        <p><strong>Data Collection Scenarios:</strong></p>
-        <ol>
-            <li><strong>Empty Room Baseline:</strong> RSSI measurements with no human presence (blankroom.csv)</li>
-            <li><strong>Occupied Room:</strong> RSSI measurements with one person moving naturally (personinroom.csv)</li>
-            <li><strong>Controlled Movement:</strong> Systematic movement patterns at varying distances</li>
-            <li><strong>Multiple Persons:</strong> 2-3 people moving simultaneously</li>
-        </ol>
-        
-        <p>The raw data format includes timestamp, RSSI values for each access point, and ground truth labels:</p>
-        
-        <table>
-            <tr>
-                <th>Timestamp</th>
-                <th>AP1_RSSI</th>
-                <th>AP2_RSSI</th>
-                <th>Occupancy</th>
-            </tr>
-            <tr>
-                <td>2023-05-15 14:30:01</td>
-                <td>-35.2</td>
-                <td>-42.1</td>
-                <td>0</td>
-            </tr>
-            <tr>
-                <td>2023-05-15 14:30:02</td>
-                <td>-36.8</td>
-                <td>-41.5</td>
-                <td>1</td>
-            </tr>
-        </table>
-        
-        <h3>3.4 Signal Processing and Feature Extraction</h3>
-        <p>Raw RSSI values are processed to extract meaningful features for classification:</p>
-        
-        <p><strong>Preprocessing Steps:</strong></p>
-        <ol>
-            <li><strong>Noise Filtering:</strong> Moving average filter with window size 5</li>
-            <li><strong>Normalization:</strong> Min-max scaling to [0,1] range</li>
-            <li><strong>Outlier Removal:</strong> Discarding values beyond ±3σ from mean</li>
-        </ol>
-        
-        <p><strong>Feature Extraction:</strong> For each 10-second window, the following features are calculated:</p>
-        <ul>
-            <li>Minimum RSSI value</li>
-            <li>Maximum RSSI value</li>
-            <li>Mean RSSI value</li>
-            <li>Standard deviation</li>
-            <li>Signal variation (max-min)</li>
-            <li>Linear regression slope</li>
-        </ul>
-        
-        <p>The feature vector <strong>F</strong> for classification can be represented as:</p>
-        <div class="equation">
-            F = [min(RSSI), max(RSSI), μ(RSSI), σ(RSSI), max(RSSI)-min(RSSI), β<sub>1</sub>]
-        </div>
-        <p>where β<sub>1</sub> is the slope coefficient from linear regression.</p>
-        
-        <h3>3.5 Machine Learning Model</h3>
-        <p>Several classification algorithms were evaluated before selecting logistic regression:</p>
-        
-        <table>
-            <tr>
-                <th>Algorithm</th>
-                <th>Accuracy</th>
-                <th>Memory Usage</th>
-                <th>Inference Time</th>
-            </tr>
-            <tr>
-                <td>Logistic Regression</td>
-                <td>95.2%</td>
-                <td>2.1KB</td>
-                <td>0.8ms</td>
-            </tr>
-            <tr>
-                <td>Decision Tree</td>
-                <td>93.7%</td>
-                <td>4.5KB</td>
-                <td>1.2ms</td>
-            </tr>
-            <tr>
-                <td>k-NN (k=3)</td>
-                <td>94.1%</td>
-                <td>15.2KB</td>
-                <td>3.5ms</td>
-            </tr>
-            <tr>
-                <td>SVM (Linear)</td>
-                <td>95.0%</td>
-                <td>3.8KB</td>
-                <td>1.5ms</td>
-            </tr>
-        </table>
-        
-        <p>Logistic regression was selected for final implementation due to its optimal balance between accuracy and resource requirements. The decision function is:</p>
-        
-        <div class="equation">
-            P(y=1|F) = 1 / (1 + e<sup>-(w·F + b)</sup>)
-        </div>
-        
-        <p>where <strong>w</strong> is the weight vector and <strong>b</strong> is the bias term learned during training.</p>
-        
-        <h3>3.6 System Implementation</h3>
-        <p>The final system was implemented in MicroPython for rapid development and deployment:</p>
-        
-        <p><strong>Key Software Components:</strong></p>
-        <ul>
-            <li><strong>RSSI Monitor:</strong> Continuous scanning of nearby access points</li>
-            <li><strong>Feature Calculator:</strong> Real-time feature extraction</li>
-            <li><strong>Classifier:</strong> Logistic regression implementation</li>
-            <li><strong>Alert Manager:</strong> Controls buzzer and display based on classification results</li>
-            <li><strong>Data Logger:</strong> Optionally stores results to SD card</li>
-        </ul>
-        
-        <p>The main processing loop executes the following steps every second:</p>
-        <ol>
-            <li>Scan for available WiFi networks</li>
-            <li>Extract RSSI values for target access points</li>
-            <li>Update rolling window buffer</li>
-            <li>Calculate features when sufficient samples collected</li>
-            <li>Run classification</li>
-            <li>Update display and trigger alerts if needed</li>
-        </ol>
-        
-        <h2>4. Results and Performance Evaluation</h2>
-        <p>The system was evaluated under various conditions to assess its detection accuracy, response time, and reliability.</p>
-        
-        <h3>4.1 Detection Accuracy</h3>
-        <p>Using a dataset of 12,000 samples (6,000 per class), the classifier achieved:</p>
-        
-        <table>
-            <tr>
-                <th>Metric</th>
-                <th>Value</th>
-            </tr>
-            <tr>
-                <td>Overall Accuracy</td>
-                <td>95.2%</td>
-            </tr>
-            <tr>
-                <td>Precision (Occupied)</td>
-                <td>94.8%</td>
-            </tr>
-            <tr>
-                <td>Recall (Occupied)</td>
-                <td>95.6%</td>
-            </tr>
-            <tr>
-                <td>F1 Score</td>
-                <td>95.2%</td>
-            </tr>
-            <tr>
-                <td>False Positive Rate</td>
-                <td>4.3%</td>
-            </tr>
-        </table>
-        
-        <h3>4.2 RSSI Characteristics</h3>
-        <p>The following table compares RSSI statistics between empty and occupied scenarios:</p>
-        
-        <table>
-            <tr>
-                <th>Scenario</th>
-                <th>Min RSSI</th>
-                <th>Max RSSI</th>
-                <th>Mean RSSI</th>
-                <th>Std Dev</th>
-                <th>Variation</th>
-            </tr>
-            <tr>
-                <td>Blank Room</td>
-                <td>-33.4</td>
-                <td>-30.0</td>
-                <td>-31.93</td>
-                <td>0.46</td>
-                <td>3.4</td>
-            </tr>
-            <tr>
-                <td>Person in Room</td>
-                <td>-37.8</td>
-                <td>-30.8</td>
-                <td>-33.63</td>
-                <td>0.97</td>
-                <td>7.0</td>
-            </tr>
-        </table>
-        
-        <div class="figure">
-            <img src="rssi_distribution.png" alt="RSSI Distribution Comparison">
-            <p class="caption">Figure 3: Probability distributions of RSSI values for empty vs. occupied scenarios</p>
-        </div>
-        
-        <h3>4.3 Temporal Performance</h3>
-        <p>The system's response time was measured under different conditions:</p>
-        
-        <table>
-            <tr>
-                <th>Movement Type</th>
-                <th>Detection Latency</th>
-                <th>Success Rate</th>
-            </tr>
-            <tr>
-                <td>Walking (1m/s)</td>
-                <td>1.2s</td>
-                <td>96%</td>
-            </tr>
-            <tr>
-                <td>Sitting Still</td>
-                <td>2.5s</td>
-                <td>89%</td>
-            </tr>
-            <tr>
-                <td>Multiple Persons</td>
-                <td>1.0s</td>
-                <td>98%</td>
-            </tr>
-        </table>
-        
-        <h3>4.4 Power Consumption</h3>
-        <p>Power measurements were taken under different operating modes:</p>
-        
-        <table>
-            <tr>
-                <th>Mode</th>
-                <th>Current Draw</th>
-                <th>Estimated Battery Life</th>
-            </tr>
-            <tr>
-                <td>Active Sensing</td>
-                <td>85mA</td>
-                <td>12 hours</td>
-            </tr>
-            <tr>
-                <td>Deep Sleep (wake every 10s)</td>
-                <td>5mA avg</td>
-                <td>7 days</td>
-            </tr>
-            <tr>
-                <td>Alert Active</td>
-                <td>120mA</td>
-                <td>8 hours</td>
-            </tr>
-        </table>
-        
-        <h2>5. Applications</h2>
-        <p>The developed system has numerous practical applications across different domains:</p>
-        
-        <h3>5.1 Smart Home Automation</h3>
-        <ul>
-            <li><strong>Lighting Control:</strong> Automatic turning on/off lights based on room occupancy</li>
-            <li><strong>HVAC Optimization:</strong> Adjusting temperature settings when rooms are unoccupied</li>
-            <li><strong>Energy Conservation:</strong> Reducing standby power consumption of appliances</li>
-        </ul>
-        
-        <h3>5.2 Security Systems</h3>
-        <ul>
-            <li><strong>Intrusion Detection:</strong> Alerting homeowners to unauthorized presence</li>
-            <li><strong>Perimeter Monitoring:</strong> Detecting approach to secured areas</li>
-            <li><strong>Asset Protection:</strong> Monitoring sensitive equipment areas</li>
-        </ul>
-        
-        <h3>5.3 Healthcare and Assisted Living</h3>
-        <ul>
-            <li><strong>Elderly Monitoring:</strong> Non-intrusive tracking of daily activity patterns</li>
-            <li><strong>Fall Detection:</strong> Identifying sudden changes in movement patterns</li>
-            <li><strong>Patient Monitoring:</strong> Tracking movement in healthcare facilities</li>
-        </ul>
-        
-        <h3>5.4 Commercial Applications</h3>
-        <ul>
-            <li><strong>Occupancy Analytics:</strong> Measuring space utilization in offices</li>
-            <li><strong>Retail Analytics:</strong> Tracking customer movement patterns</li>
-            <li><strong>Conference Room Management:</strong> Automating room booking systems</li>
-        </ul>
-        
-        <h2>6. Advantages</h2>
-        <p>The proposed system offers several significant advantages over traditional presence detection methods:</p>
-        
-        <h3>6.1 Privacy Preservation</h3>
-        <p>Unlike camera-based systems, the RSSI-based approach doesn't capture any visual or identifiable information about individuals, addressing growing privacy concerns in smart environments.</p>
-        
-        <h3>6.2 Cost Effectiveness</h3>
-        <p>The total hardware cost is under $15, significantly cheaper than most commercial presence detection systems, making it accessible for widespread deployment.</p>
-        
-        <h3>6.3 Energy Efficiency</h3>
-        <p>The ESP32's low-power capabilities enable battery operation for extended periods, with current draw as low as 5µA in deep sleep mode.</p>
-        
-        <h3>6.4 Non-Line-of-Sight Operation</h3>
-        <p>WiFi signals can penetrate walls and furniture, allowing detection even when direct line-of-sight isn't available, unlike PIR or camera systems.</p>
-        
-        <h3>6.5 Easy Integration</h3>
-        <p>The system can be easily integrated with existing smart home platforms and IoT ecosystems through standard communication protocols.</p>
-        
-        <h2>7. Limitations and Future Work</h2>
-        <p>While the proposed system demonstrates promising results, several limitations and opportunities for improvement have been identified:</p>
-        
-        <h3>7.1 Current Limitations</h3>
-        <ul>
-            <li><strong>Environmental Sensitivity:</strong> Performance degrades in highly dynamic WiFi environments with many interfering devices</li>
-            <li><strong>Range Limitations:</strong> Effective detection range is currently limited to about 5-6 meters</li>
-            <li><strong>Stationary Detection:</strong> Difficulty detecting completely motionless subjects after initial detection</li>
-            <li><strong>Multi-Person Resolution:</strong> Limited ability to distinguish between different numbers of people</li>
-        </ul>
-        
-        <h3>7.2 Future Research Directions</h3>
-        <p>Several avenues for future research and development have been identified:</p>
-        
-        <p><strong>Advanced Machine Learning Models:</strong></p>
-        <ul>
-            <li>Implementation of lightweight neural networks using TensorFlow Lite for Microcontrollers</li>
-            <li>Ensemble methods combining multiple weak classifiers</li>
-            <li>Online learning capabilities for environment adaptation</li>
-        </ul>
-        
-        <p><strong>Multi-Modal Sensing:</strong></p>
-        <ul>
-            <li>Integration with complementary sensors (PIR, mmWave) for improved accuracy</li>
-            <li>Fusion of multiple WiFi frequency bands (2.4GHz and 5GHz)</li>
-            <li>Combination with environmental sensors (temperature, humidity)</li>
-        </ul>
-        
-        <p><strong>System Optimization:</strong></p>
-        <ul>
-            <li>Development of adaptive sampling algorithms to conserve power</li>
-            <li>Implementation of mesh networking for extended coverage</li>
-            <li>Edge-cloud hybrid processing architectures</li>
-        </ul>
-        
-        <h2>8. Conclusion</h2>
-        <p>This research has successfully demonstrated the feasibility of implementing a practical, low-cost human presence detection system using WiFi RSSI and machine learning on the ESP32 platform. The developed system achieves over 95% detection accuracy in controlled environments while addressing critical concerns of privacy preservation and energy efficiency that plague traditional approaches.</p>
-        
-        <p>The comprehensive evaluation presented in this work provides valuable insights into the characteristics of WiFi signal variations caused by human presence and establishes a framework for implementing machine learning on resource-constrained IoT devices. The system's performance metrics, including detection latency, power consumption, and accuracy, suggest strong potential for real-world deployment in various application domains.</p>
-        
-        <p>Future work will focus on addressing the identified limitations through advanced machine learning techniques, multi-modal sensor fusion, and system optimization. The promising results obtained in this research pave the way for further exploration of wireless signal-based sensing and its applications in smart environments.</p>
-        
-        <h2>References</h2>
-        <ol class="references">
-            <li>Liu, H., et al. "WiFi-Based Human Activity Recognition: A Survey." IEEE Communications Magazine, vol. 57, no. 5, 2019, pp. 138-144.</li>
-            <li>Wang, Y., et al. "E-eyes: Device-free Location-oriented Activity Identification Using Fine-grained WiFi Signatures." Proceedings of the 20th Annual International Conference on Mobile Computing and Networking, 2014, pp. 617-628.</li>
-            <li>Espressif Systems. "ESP32 Technical Reference Manual." Version 4.7, 2022.</li>
-            <li>Pedregosa, F., et al. "Scikit-learn: Machine Learning in Python." Journal of Machine Learning Research, vol. 12, 2011, pp. 2825-2830.</li>
-            <li>MicroPython Development Team. "MicroPython Documentation." 2023. [Online]. Available: https://docs.micropython.org</li>
-            <li>Adib, F., et al. "See Through Walls with WiFi!" ACM SIGCOMM Computer Communication Review, vol. 43, no. 4, 2013, pp. 75-86.</li>
-            <li>Zeng, Y., et al. "WiWho: WiFi-based Person Identification in Smart Spaces." Proceedings of the 15th International Conference on Information Processing in Sensor Networks, 2016, pp. 1-12.</li>
-            <li>Halperin, D., et al. "Tool Release: Gathering 802.11n Traces with Channel State Information." ACM SIGCOMM Computer Communication Review, vol. 41, no. 1, 2011, pp. 53-53.</li>
-            <li>Kotaru, M., et al. "SpotFi: Decimeter Level Localization Using WiFi." ACM SIGCOMM Computer Communication Review, vol. 45, no. 4, 2015, pp. 269-282.</li>
-            <li>Zhang, D., et al. "A Survey on Human Behavior Recognition Using Channel State Information." IEEE Access, vol. 7, 2019, pp. 155986-156010.</li>
-        </ol>
-        
-        <div class="footer">
-            <p>© 2023 Mahendra Mali | SPCE, Sankalchand Patel University</p>
+    <!-- Download Research Papers Button -->
+    <div style="margin-top: 2rem;">
+        <a href="https://mahendraplus.github.io/wifi-rssi-intrusion-guard/HumanPresence_Detection_Using_WiFi_ML.html" class="btn" target="_blank" rel="noopener">
+            <i class="fas fa-download"></i> Download Research Papers
+        </a>
+    </div>
+    </header>
+    
+    <!-- Auto-sliding Banner -->
+    <div class="container">
+        <div class="banner-container">
+            <div class="banner-slide" id="bannerSlide">
+                <img src="https://mahendraplus.github.io/wifi-rssi-intrusion-guard/img/1.jpg" alt="Project Screenshot 1">
+                <img src="https://mahendraplus.github.io/wifi-rssi-intrusion-guard/img/2.jpg" alt="Project Screenshot 2">
+                <img src="https://mahendraplus.github.io/wifi-rssi-intrusion-guard/img/3.jpg" alt="Project Screenshot 3">
+                 <img src="https://mahendraplus.github.io/wifi-rssi-intrusion-guard/img/4.jpg" alt="Project Screenshot 4">
+            </div>
         </div>
     </div>
+    
+    <!-- Project Overview -->
+    <section>
+        <div class="container">
+            <h2>Project Overview</h2>
+            <p>This innovative project detects human presence in a room using WiFi signal strength (RSSI) and machine learning. It runs entirely on an ESP32 microcontroller with MicroPython, featuring an OLED display, buzzer, and SD card for real-time alerts and data logging - all without cameras for complete privacy.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-wifi feature-icon"></i>
+                    <h3>Passive Detection</h3>
+                    <p>Uses existing WiFi signals to detect human presence without emitting any signals or requiring cameras.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-brain feature-icon"></i>
+                    <h3>Machine Learning</h3>
+                    <p>Implements trained models directly on the ESP32 to distinguish between empty and occupied rooms.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-bell feature-icon"></i>
+                    <h3>Real-time Alerts</h3>
+                    <p>Provides immediate visual (OLED) and audible (buzzer) alerts when presence is detected.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-database feature-icon"></i>
+                    <h3>Data Logging</h3>
+                    <p>Records all detection events to SD card for later analysis in CSV format.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-microchip feature-icon"></i>
+                    <h3>ESP32 Powered</h3>
+                    <p>Runs entirely on low-cost ESP32 hardware with MicroPython for easy development.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-user-shield feature-icon"></i>
+                    <h3>Privacy Focused</h3>
+                    <p>No cameras or personal data collection - only WiFi signal strength measurements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Hardware Components -->
+    <section>
+        <div class="container">
+            <h2>Hardware Components</h2>
+            <p>The system uses common, low-cost components that are easy to source and assemble:</p>
+            
+            <table class="hardware-table">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Description</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="fas fa-microchip"></i> ESP32 Dev Board</td>
+                        <td>WiFi-enabled microcontroller</td>
+                        <td>Main processing unit with built-in WiFi</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-tv"></i> OLED Display</td>
+                        <td>SSD1306 (128x64)</td>
+                        <td>Real-time status display</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-volume-up"></i> Buzzer</td>
+                        <td>PWM-controlled</td>
+                        <td>Audible alerts for presence detection</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-toggle-on"></i> Buttons</td>
+                        <td>Tactile switches</td>
+                        <td>User interface controls (select/back)</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-save"></i> SD Card Module</td>
+                        <td>SPI interface</td>
+                        <td>Data logging storage</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-bolt"></i> Power Supply</td>
+                        <td>5V USB or battery</td>
+                        <td>System power</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="image-gallery">
+                <figure class="gallery-item">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMxy-UeX_F1F_-jiLNPrJ4BdsmS1jR6c7IrA&s" alt="ESP32 Development Board">
+                    <figcaption>ESP32 Development Board with WiFi</figcaption>
+                </figure>
+                <figure class="gallery-item">
+                    <img src="data:image/jpeg;base64,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" alt="OLED Display">
+                    <figcaption>SSD1306 OLED Display for Status</figcaption>
+                </figure>
+                <figure class="gallery-item">
+                    <img src="https://mahendraplus.github.io/wifi-rssi-intrusion-guard/img/1.jpg" alt="Complete System Setup">
+                    <figcaption>Complete System Assembly</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+    
+    <!-- How It Works -->
+    <section>
+        <div class="container">
+            <h2>How It Works</h2>
+            <p>The system operates through a carefully designed workflow that combines hardware sensing with machine learning:</p>
+            
+            <h3>Data Collection Phase</h3>
+            <p>The ESP32 continuously scans for nearby WiFi networks and records their signal strength (RSSI) under two scenarios:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
+                <li>When the room is empty (<code>blankroom.csv</code>)</li>
+                <li>When a person is present in the room (<code>personinroom.csv</code>)</li>
+            </ul>
+            
+            <div class="code-block">
+                <pre># Sample data collection code snippet
+import network
+import time
+import json
+
+wifi = network.WLAN(network.STA_IF)
+wifi.active(True)
+
+def scan_networks():
+    networks = wifi.scan()
+    rssi_values = [net[3] for net in networks]  # Extract RSSI values
+    avg_rssi = sum(rssi_values) / len(rssi_values) if rssi_values else -100
+    return {
+        'timestamp_ms': time.ticks_ms(),
+        'rssi': avg_rssi,
+        'networks': len(networks)
+    }</pre>
+            </div>
+            
+            <h3>Machine Learning Workflow</h3>
+            <ol style="margin-left: 2rem; margin-bottom: 1.5rem;">
+                <li>Collect RSSI data under both scenarios</li>
+                <li>Train a machine learning model in Jupyter Notebook</li>
+                <li>Export a threshold-based or lightweight rule</li>
+                <li>Run real-time RSSI classification on ESP32</li>
+                <li>Trigger alert if human presence is detected</li>
+            </ol>
+            
+            <div class="image-gallery">
+                <figure class="gallery-item">
+                    <img src="https://raw.githubusercontent.com/mahendraplus/wifi-rssi-intrusion-guard/Max/output_0_2.png" alt="RSSI Data Analysis">
+                    <figcaption>RSSI Data Analysis in Jupyter Notebook</figcaption>
+                </figure>
+                <figure class="gallery-item">
+                    <img src="https://raw.githubusercontent.com/mahendraplus/wifi-rssi-intrusion-guard/Max/output_1_0.png" alt="ML Model Training">
+                    <figcaption>Machine Learning Model Training</figcaption>
+                </figure>
+                <figure class="gallery-item">
+                    <img src="https://raw.githubusercontent.com/mahendraplus/wifi-rssi-intrusion-guard/Max/output_3_0.png" alt="Decision Threshold">
+                    <figcaption>Optimal Decision Threshold Selection</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Data Analysis -->
+    <section>
+        <div class="container">
+            <h2>Data Analysis and Results</h2>
+            <p>The project includes comprehensive Jupyter Notebook analysis to develop the optimal detection algorithm:</p>
+            
+            <div class="code-block">
+                <pre># blankroom.ipynb - Data Analysis
+
+# Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load and analyze data
+df_blank = pd.read_csv("blankroom.csv")
+df_person = pd.read_csv("personinroom.csv")
+
+# Combine datasets
+df_all = pd.concat([df_blank, df_person], ignore_index=True)
+
+# Preprocessing
+df_all["time_s"] = (df_all["timestamp_ms"] - df_all["timestamp_ms"].min()) / 1000
+df_all["rssi_avg"] = df_all["rssi"].rolling(window=5, center=True).mean()
+df_all = df_all.dropna()
+
+# Plot RSSI distribution
+plt.figure(figsize=(10,5))
+sns.histplot(data=df_all, x="rssi_avg", hue="label", bins=30, kde=True)
+plt.title("RSSI Distribution: Empty vs Person in Room")
+plt.xlabel("RSSI (dBm)")
+plt.ylabel("Frequency")
+plt.show()</pre>
+            </div>
+            
+            <div class="image-gallery">
+                <figure class="gallery-item">
+                    <img src="https://raw.githubusercontent.com/mahendraplus/wifi-rssi-intrusion-guard/Max/output_3_1.png" alt="RSSI Over Time">
+                    <figcaption>RSSI Measurements Over Time</figcaption>
+                </figure>
+                <figure class="gallery-item">
+                    <img src="https://raw.githubusercontent.com/mahendraplus/wifi-rssi-intrusion-guard/Max/output_4_1.png" alt="Distribution Comparison">
+                    <figcaption>RSSI Distribution Comparison</figcaption>
+                </figure>
+            </div>
+            
+            <h3>Model Performance</h3>
+            <div class="code-block">
+                <pre>Accuracy: 0.9006
+
+Classification Report:
+              precision  recall  f1-score  support
+
+           0       0.88      0.92      0.90       525
+           1       0.92      0.88      0.90       521
+
+    accuracy                           0.90      1046
+   macro avg       0.90      0.90      0.90      1046
+weighted avg       0.90      0.90      0.90      1046</pre>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Our Team -->
+    <section>
+        <div class="container">
+            <h2>Meet the Team</h2>
+            <p>This project is developed by a passionate team dedicated to advancing IoT and machine learning technologies.</p>
+            </h2>
+        
+            <div class="team-slider">
+                <div class="team-member">
+                    <img src="https://mahendraplus.github.io/assets/gif/Mahendra-Mali.gif" alt="Mahendra Mali" class="team-photo">
+                    <h3>Mahendra Mali</h3>
+                    <p>Project Lead</p>
+                    <p>IoT & ML Engineer</p>
+                </div>
+             
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <div class="container">
+        <div class="cta">
+            <h2>Ready to Build Your Own?</h2>
+            <p>This open-source project is available for anyone to use and modify under the MIT License.</p>
+            <a href="https://github.com/mahendraplus/esp32-presence-detection" class="btn">
+                <i class="fab fa-github"></i> View on GitHub
+            </a>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+       
+        <div class="container">
+            <div class="footer-content">
+                <div class="social-links">
+                    <a href="https://github.com/mahendraplus" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://mahendraplus.github.io" aria-label="Website"><i class="fas fa-globe"></i></a>
+                    <a href="mailto:mahendrakumargahelot@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="https://www.instagram.com/m4u.xt/" aria-label="Twitter"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/mahendra-mali/" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+                
+                <p class="copyright">© 2025-26 Mahendra Mali. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scroll Buttons -->
+    <div class="scroll-buttons">
+        <button class="scroll-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <button class="scroll-btn" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})">
+            <i class="fas fa-arrow-down"></i>
+        </button>
+    </div>
+    
+    <script>
+        // Auto-sliding banner
+        let currentSlide = 0;
+        const banner = document.getElementById('bannerSlide');
+        const slides = banner.children;
+        const slideCount = slides.length;
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slideCount;
+            banner.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+        
+        // Change slide every 5 seconds
+        setInterval(nextSlide, 5000);
+        
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide scroll buttons initially
+            const scrollButtons = document.querySelector('.scroll-buttons');
+            scrollButtons.style.opacity = '0';
+            scrollButtons.style.transition = 'opacity 0.3s ease';
+            
+            // Show scroll buttons after page loads
+            setTimeout(() => {
+                scrollButtons.style.opacity = '1';
+            }, 1000);
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+        
+        // Show/hide scroll buttons based on scroll position
+        window.addEventListener('scroll', function() {
+            const scrollButtons = document.querySelector('.scroll-buttons');
+            if (window.scrollY > 100) {
+                scrollButtons.style.opacity = '1';
+            } else {
+                scrollButtons.style.opacity = '0';
+            }
+        });
+    </script>
 </body>
 </html>
